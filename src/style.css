@@ -13,3 +13,62 @@ td{
 .td-non{
     border:rgba(0,0,0,0);
 }
+
+.modal-style{
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  display: block;
+  padding: 1em;
+  min-width: 20em;
+  max-width: 80%;
+  max-height: 50%;
+  color: #000;
+  background-color: rgb(255, 254, 254);
+  border-color: #000;
+  border-radius: 1em;
+  transform: translate(-50%, -50%);
+  outline: transparent;
+  
+}
+
+.overay-style{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.4);
+}
+
+.overay-style-end{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(150, 150, 150, 0.4);
+  }
+
+.modal-style-end{
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    display: block;
+    padding: 1em;
+    min-width: 20em;
+    max-width: 80%;
+    max-height: 50%;
+    color: #000;
+    background-color: rgb(255, 254, 254);
+    border-color: #000;
+    border-radius: 1em;
+    transform: translate(0%, 0%);
+    outline: transparent;
+    
+  }
+
+.modal-button{
+  text-align:right;
+}
+    

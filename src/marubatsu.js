@@ -1,7 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
-import './style.css'
+import './style.css';
+
+Modal.setAppElement('#index')
+
+
 
 function Marubatsu(props){
 
@@ -27,20 +32,48 @@ function MarubatsuMid(){
         [0,0,0,0,0],
         [0,0,0,0,0]
     ]);
-    const [test,setTest]=useState();
+
     const [turn,setTurn]=useState(0);
     const [judgeResult,setJudgeResult]=useState(false);
+    const [tC,setTC]=useState(1);
+    const [isOpen, setIsOpen] = useState(false);
+    const [comF,setComF]=useState(false);
+
+    const [modalIn,setModalIn]=useState(0);
+    
+    const [resetF,setResetF]=useState(false);
 
     let inlineArray=inline;
 
     useEffect(()=>{
-        //console.log(judgeResult)
+        setIsOpen(true);
+    },[]);
 
+    useEffect(()=>{
         //勝敗判定後に勝敗の結果を表示する
         if(judgeResult){
-            alert(((turn===1)?'○':'×')+"の勝ち")
+            console.log('勝ち負け')
+            setModalIn(3);
+            setIsOpen(true)
         }
     },[turn]);
+
+    useEffect(()=>{
+        //コンピューター
+        if(comF){
+            com()
+            setTurn(1)
+            setTC(tC+1)
+            setComF(false)
+            judge()
+        }
+
+        //リセット
+        if(resetF){
+           window.location='/'
+            
+        }
+    })
 
     function MarubatsuTurn(){
         return(
@@ -50,10 +83,80 @@ function MarubatsuMid(){
         )
     }
 
+    //コンピューター
+    function com(){
+        console.log(tC);
+        let tTurnF=true;
+        let fTurnF=true;
+
+        //初手
+        if(tC===1){
+            inlineArray[2][2]=1;
+            setInline(inlineArray);
+        }
+        //2手目
+        else if(tC===3){
+            for(let x=1;x<4;x++){
+                for(let y=1;y<4;y++){
+                    if(inline[x][y]===0 &&tTurnF){
+                        inlineArray[x][y]=1;
+                        setInline(inlineArray);
+                        tTurnF=false;
+                    }
+                }
+            }
+        }
+        
+        //3手目以降
+        else{
+            for(let x=0;x<5;x++){
+                console.log('テスト'+x)
+                if(x===0){
+                    //左端
+                    if(inline[1][1]===1 &&fTurnF){
+                        
+                        inlineArray[0][0]=1;
+                        setInline(inlineArray);
+                        fTurnF=false;
+                    }
+                }else if(x===4){
+                    //右上
+                    if(inline[3][1]===1 &&fTurnF){
+                        inlineArray[4][0]=1;
+                        setInline(inlineArray);
+                        fTurnF=false;
+                    }
+                }else{//それ以外
+                    if(inline[x][1]===1 &&fTurnF){
+                        inlineArray[x][0]=1;
+                        setInline(inlineArray);
+                        fTurnF=false;
+                    }
+                }
+            }
+
+            for(let y=0;y<5;y++){
+                if(inline[1][y]===1 &&fTurnF){//左側
+                    inlineArray[0][y]=1;
+                    setInline(inlineArray);
+                    fTurnF=false;
+                }
+
+                if(inline[3][y]===1 &&fTurnF){//右側
+                    inlineArray[4][y]=1;
+                    setInline(inlineArray);
+                    fTurnF=false;
+                }
+            }
+        }
+        
+    }
+
     //コマのクリック時の処理
     function tdClick(e){
         let ckArCell=true
 
+        //最初の打コン時に隠れているセルをクリックできないようにする
         //列方向が0
         if(e.x===0){
             if(e.y===0){//行列ともに0の位置
@@ -97,22 +200,24 @@ function MarubatsuMid(){
         }
 
         //console.log(ckArCell)
-
         //端っこは打てない
         if(ckArCell){
             //空白のますの判定
             if(inline[e.x][e.y]==0){
 
-                if(turn==0){//先攻：○の打コン
+                if(turn===1){//先攻：○の打コン
+                    /*
                     inlineArray[e.x][e.y]=1;
                     setInline(inlineArray);
-                    setTurn(1);
-                    judge()
-                }else{//後攻：×の打コン
+                    */
                     inlineArray[e.x][e.y]=-1;
                     setInline(inlineArray);
                     setTurn(0);
+                    setTC(tC+1)
                     judge()
+                    setComF(true)
+                }else{//後攻：×の打コン
+                    
                 }  
             }
         }
@@ -193,16 +298,11 @@ function MarubatsuMid(){
             }
         }
 
-        //console.log(judgeResult)
-        
-        
     }
 
     //周辺マスを透明にする。
     function tdCssJudg(e){
 
-        let ckArCell=false
-        
         if(inline[e.x][e.y]===0){
             return 'td-non'
         }else{
@@ -211,10 +311,19 @@ function MarubatsuMid(){
         
     }
 
+
     //描画
     return(
         <div>
             <MarubatsuTurn/>
+            <ModalReturn 
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                modalIn={modalIn}
+                setModalIn={setModalIn}
+                setComF={setComF}
+                setResetF={setResetF}/>
+            
             <table width="400" height="400">
                 <tbody>
                     
@@ -261,5 +370,126 @@ function MarubatsuMid(){
         </div>
     )
 }
+
+function ModalReturn(props){
+
+    function closeModal(e){
+        props.setIsOpen(e);
+    }
+
+    function clickNextButton(){
+
+        switch(props.modalIn){
+            case 0:
+                props.setModalIn(props.modalIn+1)
+                break;
+            
+            case 1:
+                setTimeout(function() {
+                    console.log("時間経過1秒")
+                    props.setModalIn(props.modalIn+1);
+                }, 100);
+                
+                break;
+            
+            case 2:
+                props.setIsOpen(false)
+                props.setComF(true)
+                break;
+            
+            case 3:
+                props.setResetF(true)
+                break;
+            
+            default:
+                break;
+        }
+        
+    }
+
+    switch(props.modalIn){
+        case 0:
+            return(
+                <div>
+                    <Modal
+                        isOpen={props.isOpen}
+                        onRequestClose={closeModal}
+                        className="modal-style"
+                        overlayClassName="overay-style"
+                        contentLabel="Example Modal">
+                        <div>○×ゲームです。縦、横、斜めに自分の記号（○か×）を三つ揃えたらあなたの勝ちです</div>
+                        <div className="modal-button" onClick={()=>clickNextButton()}><button>次へ</button></div>
+                        
+                    </Modal>
+                </div>
+            )
+            break;
+        
+        case 1:
+            return(
+                <div>
+                    <Modal
+                        isOpen={props.isOpen}
+                        onRequestClose={closeModal}
+                        className="modal-style"
+                        overlayClassName="overay-style"
+                        contentLabel="Example Modal">
+                        
+                        <div>コンピューターと対戦になります。</div>
+                        <div className="modal-button" onClick={()=>clickNextButton()}><button>次へ</button></div>
+                    </Modal>
+                </div>
+            )
+            break;
+        
+        case 2:
+            return(
+                <div>
+                    <Modal
+                        isOpen={props.isOpen}
+                        onRequestClose={closeModal}
+                        className="modal-style"
+                        overlayClassName="overay-style"
+                        contentLabel="Example Modal">
+                        
+                        <div>あなたが後攻(×)です</div>
+                        <div className="modal-button" onClick={()=>clickNextButton()}><button>START</button></div>
+                    </Modal>
+                </div>
+            )
+            break;
+        
+        case 3:
+            return(
+                <div>
+                    <Modal
+                        isOpen={props.isOpen}
+                        onRequestClose={closeModal}
+                        className="modal-style-end"
+                        overlayClassName="overay-style-end"
+                        contentLabel="Example Modal">
+                        
+                        <div>あなたの負けです</div>
+                        <div className="modal-button" onClick={()=>clickNextButton()}><button>次へ</button></div>
+                    </Modal>
+                </div>
+            )
+            break;
+
+        default:
+            return(
+                <div>
+                    <Modal
+                        isOpen={props.isOpen}
+                        onRequestClose={closeModal}
+                        className="modal-style"
+                        contentLabel="Example Modal">
+                </Modal>
+            </div>)
+        
+    }
+    
+}
+
 
 export default Marubatsu;
