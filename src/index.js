@@ -43,7 +43,7 @@ function RouteRend(){
     return(
         <div　className='direction-main'>
             
-            <BrowserRouter　basename='/public'>
+            <BrowserRouter　basename='/'>
 
                 <Sidebar>
                     <Menu>
