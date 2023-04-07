@@ -1,6 +1,7 @@
 {
   "name": "onesite",
   "version": "1.0.0",
+  "homepage": "s://daiki1995.github.io/One-site",
   "description": "",
   "main": "index.js",
   "scripts": {

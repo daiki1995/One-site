@@ -43,16 +43,16 @@ function RouteRend(){
     return(
         <div　className='direction-main'>
             
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
 
                 <Sidebar>
                     <Menu>
 
-                        <MenuItem component={<Link to='https://daiki1995.github.io/One-site/public/'/>}>
+                        <MenuItem component={<Link to='/'/>}>
                             ホーム
                         </MenuItem>  
 
-                        <MenuItem component={<Link to='https://daiki1995.github.io/One-site/public/marubatsu'/>}>
+                        <MenuItem component={<Link to='/marubatsu'/>}>
                             まるばつ
                         </MenuItem>   
                     
