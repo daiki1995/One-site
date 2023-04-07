@@ -43,7 +43,7 @@ function RouteRend(){
     return(
         <div　className='direction-main'>
             
-            <BrowserRouter　basename={process.env.PUBLIC_URL}>
+            <BrowserRouter　basename='/public'>
 
                 <Sidebar>
                     <Menu>
