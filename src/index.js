@@ -48,11 +48,11 @@ function RouteRend(){
                 <Sidebar>
                     <Menu>
 
-                        <MenuItem component={<Link to='/'/>}>
+                        <MenuItem component={<Link to='https://daiki1995.github.io/'/>}>
                             ホーム
                         </MenuItem>  
 
-                        <MenuItem component={<Link to='/marubatsu'/>}>
+                        <MenuItem component={<Link to='https://daiki1995.github.io/marubatsu'/>}>
                             まるばつ
                         </MenuItem>   
                     
