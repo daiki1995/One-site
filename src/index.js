@@ -1,8 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter,Route,Switch} from 'react-router-dom';
+import {BrowserRouter,Route,Switch,Link} from 'react-router-dom';
 import { ProSidebarProvider,Sidebar ,  Menu ,  MenuItem ,useProSidebar} from  'react-pro-sidebar' ;
-import {Link} from 'react-router-dom';
 import './style.css';
 
 import Marubatsu from './marubatsu.js';
