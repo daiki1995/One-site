@@ -6,6 +6,7 @@ import './style.css';
 
 import Marubatsu from './marubatsu.js';
 import HOME from './home.js';
+import CalCos from './calcos.js';
 
 function App(){
 
@@ -43,7 +44,7 @@ function RouteRend(){
     return(
         <div　className='direction-main'>
             
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <BrowserRouter>
 
                 <Sidebar>
                     <Menu>
@@ -55,6 +56,10 @@ function RouteRend(){
                         <MenuItem component={<Link to='/marubatsu'/>}>
                             まるばつ
                         </MenuItem>   
+
+                        <MenuItem component={<Link to='/calcos-1'/>}>
+                            カロコス登録ページ
+                        </MenuItem>
                     
                     </Menu>
 
@@ -75,7 +80,11 @@ function RouteRend(){
     
                     <Route path='/marubatsu'>
                         <Marubatsu collapsed={collapsed} flg={flg} setFlg={setFlg} collapseSidebar={collapseSidebar}/>
-                    </Route>         
+                    </Route> 
+
+                    <Route path='/calcos-1'>
+                        <CalCos collapsed={collapsed} flg={flg} setFlg={setFlg} collapseSidebar={collapseSidebar}/>
+                    </Route>        
                 </Switch>
                 
             </BrowserRouter>

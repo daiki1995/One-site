@@ -1,6 +1,7 @@
 .direction-main{
     display: flex;
     flex-direction: row;
+    width: max-content;
 }
 
 td{
@@ -71,4 +72,5 @@ td{
 .modal-button{
   text-align:right;
 }
-    
+
+
