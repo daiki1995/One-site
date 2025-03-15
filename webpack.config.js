@@ -1,11 +1,17 @@
 
 const path = require('path');
 
+/*
+const dotenv = require('dotenv');
+const env = dotenv.config().parsed;
+*/
+
 const main={
     mode:"development",
 
     //メインとなるjavascriptファイル
     entry:"./src/index.js",
+
 
     //出力ファイル
     output: {
@@ -37,7 +43,7 @@ const main={
                 use: [{ loader: 'style-loader' },
                     {loader:'css-loader'}]
             }
-        ]
+        ],
     },
 
     devServer: {
@@ -45,6 +51,8 @@ const main={
         compress: true,
         port: 9000,
     },
+
+    
 };
 
 const marubatsu={
